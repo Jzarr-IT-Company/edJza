@@ -1,10 +1,17 @@
 import React, { memo } from 'react'
 import BuyCoursesLink from '../BuyCoursesLink/BuyCoursesLink';
 import ViewDeatlsBttn from '../ViewDeatlsBttn/ViewDeatlsBttn';
+import { useNavigate } from 'react-router-dom';
 
-const CourseCard = memo(({ course, onClick }) => {
+const CourseCard = memo(({ course, onClick,dealRef }) => {
     const descriptionSnippet = `${course.coursedescription.title.split(' ').slice(0, 8).join(' ')}${course.coursedescription.title.split(' ').length > 10 ? '...' : ''}`;
-
+    const navigate = useNavigate();
+    // Scroll to Deals Section
+    const handleBtn = () => {
+        if (dealRef.current) {
+            dealRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    };
     return (
         <div className="col-lg-4 col-md-6" >
             <div className="card shadow-lg border-0 rounded-4 overflow-hidden">
@@ -21,9 +28,9 @@ const CourseCard = memo(({ course, onClick }) => {
                             background: "linear-gradient(45deg, #ff416c, #ff4b2b)",
                             boxShadow: "0px 4px 10px rgba(255, 75, 43, 0.4)",
                             cursor: "pointer"
-                        }} onClick={onClick}
+                        }}  onClick={handleBtn} 
                     >
-                        🔥 Limited-Time Deal: <span className="fs-5">12,000 PKR</span>
+                        🔥 Limited-Time Offer For All Course Just: <span className="fs-5">12,000 PKR</span>
                     </div>
                     <div className="d-flex justify-content-between mt-auto">
                         <BuyCoursesLink id={course._id} />

@@ -29,6 +29,7 @@ function LogoutBtn() {
                     if (result) {
                         Cookies.remove('authToken');
                         Cookies.remove('userId');
+                        Cookies.remove('physicalclass');
                         navigate('/');
                         window.location.reload();
                     }

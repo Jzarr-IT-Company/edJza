@@ -8,7 +8,7 @@ import CourseCard from '../HomeCoursesCompo/HomeCoursesCompo';
 import LoadingSkeleton from '../LoadingSkeleton/LoadingSkeleton';
 import ViewAllCOursesCompo from '../ViewAllCoursesCompo/ViewAllCOursesCompo';
 
-function Courses() {
+function Courses({dealRef}) {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const { setCourseId } = useGlobalState();
@@ -42,7 +42,7 @@ function Courses() {
                     <LoadingSkeleton />
                 ) : (
                     courses.map((course) => (
-                        <CourseCard key={course._id} course={course} onClick={() => handleCourseClick(course._id)} />
+                        <CourseCard key={course._id} course={course} onClick={() => handleCourseClick(course._id)}dealRef={dealRef} />
                     ))
                 )}
             </div>

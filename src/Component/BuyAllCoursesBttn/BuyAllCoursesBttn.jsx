@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useGlobalState } from '../../Context/Context';
-
+import './BuyAllCOursesBttn.css'
 function BuyAllCoursesBttn() {
     const { stuName, stuEmail, stuPhone, setBuyCourseData, userId, userToken, setAbc } = useGlobalState();
     const navigate = useNavigate();
@@ -22,13 +22,13 @@ function BuyAllCoursesBttn() {
     }
     return (
         <>
-            <div className=" ">
-                <div className="col-md-4 col-12 w-100 ">
-                    <button className="btn btn-success py-3 text-center fw-semibold w-100" onClick={handle}>
-                        Buy Now
-                    </button>
-                </div>
+             <div className="offer-container">
+            <div className="col-md-4 col-12 w-100">
+                <button className="btn btn-success py-3 text-center fw-semibold w-100 animated-button" onClick={handle}>
+                    <span className="animated-text">Unlock All Courses</span>
+                </button>
             </div>
+        </div>
         </>
     )
 }

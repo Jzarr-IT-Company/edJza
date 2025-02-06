@@ -2,6 +2,7 @@ import { Spin } from "antd";
 import React, { Suspense, lazy } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Alpha_merchant from "../Pages/Alpha_merchant";
+import Thankyou from "../Pages/Thankyou";
 const Home = lazy(() => import("../Pages/Home"));
 const Login = lazy(() => import("../Pages/Login"));
 const Signup = lazy(() => import("../Pages/Signup"));
@@ -199,6 +200,13 @@ function Routing() {
           path: "/alpha_merchant",
           element: (
             <Alpha_merchant/>
+          ),
+        },
+        ,
+        {
+          path: "/t",
+          element: (
+            <Thankyou/>
           ),
         },
       ]);

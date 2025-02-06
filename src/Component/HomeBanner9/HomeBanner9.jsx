@@ -1,9 +1,11 @@
 import React from 'react';
 import BuyAllCoursesButton from '../BuyAllCoursesBttn/BuyAllCoursesBttn';
 
-function HomeBanner9() {
+function HomeBanner9({dealRef}) {
+    
+
     return (
-        <div className="container-fluid py-5">
+        <div className="container-fluid py-5" ref={dealRef}>
             <div className="row d-flex justify-content-center align-items-center">
                 <div className="col-md-6 col-12 order-1 order-md-2">
                     <div style={{ padding: "56.25% 0 0 0", position: "relative" }}>

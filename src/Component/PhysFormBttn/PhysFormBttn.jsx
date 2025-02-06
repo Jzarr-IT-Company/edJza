@@ -1,60 +1,95 @@
-import React, { useState } from 'react'
-import Cookies from 'js-cookie';
+import React, { useState } from 'react';
 import { useGlobalState } from '../../Context/Context';
-import { signup } from '../../Services/auth';
 import { Spin } from 'antd';
+import Swal from 'sweetalert2';
+import { physicalForm } from '../../Services/physical.services';
+import { useNavigate } from 'react-router-dom';
+
 function PhysFormBttn() {
-    const { phyFormData, userToken, userId } = useGlobalState();
-    const [loading, setLoading] = useState(false)
+    const { phyFormData } = useGlobalState();
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
+
+    // Check if all fields are filled
+    const isFormValid = () => {
+        return (
+            phyFormData.name &&
+            phyFormData.email &&
+            phyFormData.phone &&
+            phyFormData.address &&
+            phyFormData.course &&
+            phyFormData.dob &&
+            phyFormData.qualification &&
+            phyFormData.country &&
+            phyFormData.city
+        );
+    };
 
     const handleSubmit = async (e) => {
-        setLoading(true)
         e.preventDefault();
-        let name = phyFormData.firstName + " " + phyFormData.lastName;
-        const obj = {
-            name,
-            email: phyFormData.email,
-            password: phyFormData.password,
-            classType: "physical",
-            phone: phyFormData.phone
+
+        // Validation check
+        if (!isFormValid()) {
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Please fill out all fields",
+                showConfirmButton: true,
+            });
+            return;
         }
+
+        setLoading(true);
+
+        const obj = {
+            name: phyFormData.name,
+            email: phyFormData.email,
+            phone: phyFormData.phone,
+            address: phyFormData.address,
+            course: phyFormData.course,
+            dateofbirdth: phyFormData.dob,
+            lastqualification: phyFormData.qualification,
+            computerProficiency: phyFormData.proficiency,
+            doyouhavelaptop: phyFormData.laptop,
+            country: phyFormData.country,
+            city: phyFormData.city,
+        };
+
         try {
-            const response = await signup(obj)
+            const response = await physicalForm(obj);
             if (response.status === 200) {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Create acocunt!",
+                    title: "Account Created!",
                     showConfirmButton: false,
                     timer: 1500
                 }).then((result) => {
                     if (result) {
-                        if (!userToken && !userId) {
-                            Cookies.set("authToken", response.data.token.token, { expires: 365 });
-                            Cookies.set("userId", response.data.id, { expires: 365 });
-                            navigate('/')
-                            window.location.reload()
-                        } else {
-                            navigate('/')
-                            window.location.reload()
-                        }
+                        navigate("/t");
                     }
-                })
+                });
             }
         } catch (error) {
-            setLoading(false)
+            console.error("Signup Error: ", error);
         } finally {
-            setLoading(faalse)
+            setLoading(false);
         }
-
     };
+
     return (
         <div className="row mt-4">
-            <button type="submit" className="bttn fw-semibold" id="createAccount" onClick={handleSubmit}>
-               {loading? <Spin/>:"Submit Physical Form"} 
+            <button
+                type="submit"
+                className="bttn fw-semibold"
+                id="createAccount"
+                onClick={handleSubmit}
+                disabled={!isFormValid() || loading}
+            >
+                {loading ? <Spin /> : "Submit Physical Form"}
             </button>
         </div>
-    )
+    );
 }
 
-export default PhysFormBttn
+export default PhysFormBttn;

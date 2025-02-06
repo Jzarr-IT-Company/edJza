@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { getAllCourse } from '../Services/getCourses';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalState } from '../Context/Context';
@@ -15,6 +15,7 @@ function AllCourses() {
     const [getCourses, setgetCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const dealRef = useRef(null);
     const navigate = useNavigate();
     const nextBtn = useCallback((id) => {
         setCourseId(id);
@@ -36,9 +37,14 @@ function AllCourses() {
         };
         getData();
     }, []);
+    const handleBtn = () => {
+        if (dealRef.current) {
+            dealRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+    };
     return (
         <>
-            <HomeBanner9 />
+            <HomeBanner9 dealRef={dealRef}/>
             {loading ? (
                 <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
                     <Row gutter={[16, 16]}>
@@ -87,9 +93,9 @@ function AllCourses() {
                                                     background: "linear-gradient(45deg, #ff416c, #ff4b2b)",
                                                     boxShadow: "0px 4px 10px rgba(255, 75, 43, 0.4)",
                                                     cursor: "pointer"
-                                                }} onClick={() => nextBtn(data._id)}
+                                                }} onClick={() => handleBtn()}
                                             >
-                                                🔥 Limited-Time Deal: <span className="fs-5">12,000 PKR</span>
+                                                🔥 Limited-Time Offer For All Courses Just:  <span className="fs-5">12,000 PKR</span>
                                             </div>
                                             <div className="d-flex justify-content-between mt-4">
                                                 <BuyCoursesLink id={data._id} />

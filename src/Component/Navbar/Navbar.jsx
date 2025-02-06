@@ -3,25 +3,42 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useGlobalState } from '../../Context/Context'
 import PhysicalClass from '../PhysicalClass/PhysicalClass'
 import LiveClasses from '../LiveClasses/LiveClasses'
-
+import cookies from 'js-cookie'
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Swal from "sweetalert2";
 function Navbar() {
     const { isuser, userToken } = useGlobalState()
     const navigate = useNavigate();
     const onlineclasses = async () => {
-        if (!userToken) {
-            navigate('/signup')
+        // toast.success("We’re almost there! 🔥 Our live class feature is under development and will be launching very soon. Get ready for real-time learning like never before!", {
+        //     position: "top-right",
+        //     autoClose: 3000,
+        //   });
+        Swal.fire({
+            title: "🚀 Work in Progress!",
+            text: "We’re almost there! 🔥 Our live class feature is under development and will be launching very soon. Get ready for real-time learning like never before!",
+            icon: "info",
+            confirmButtonText: "OK",
+          });
+        
+    }
+    const isPhysical = cookies.get("physicalclass");
+
+    const PhysicalClasses = () => {
+        if (isPhysical) {
+            navigate('/t');  
         } else {
-            navigate("/buymorecourses")
+            navigate('/physical'); 
         }
-    }
-    const PhysicalClasses = async () => {
-        navigate('/physical')
-    }
+    };
+
     const handleDahsboard = () => {
         navigate('/dashboard')
     }
     return (
         <>
+        <ToastContainer/>
             <div className="container-fluid sticky-top bg-light py-2 d-none d-lg-block d-md-none abc">
                 <div className="row">
                     <div className="col-12 d-flex">

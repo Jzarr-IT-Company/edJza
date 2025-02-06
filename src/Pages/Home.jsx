@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect, useRef } from 'react';
 import { Spin } from 'antd';
 import Slider from '../Component/Slider/Slider';
 import ReviewsSlider from '../Component/ReviewsSlider/ReviewsSlider';
@@ -17,14 +17,15 @@ const Courses = lazy(() => import('../Component/Courses/Courses'));
 const HomeBanner4 = lazy(() => import('../Component/HomeBanner4/HomeBanner4'));
 
 function Home() {
+  const dealRef = useRef(null);
   return (
     <>
       <ScrollToTop />
       <Slider />
       <MarqueeText />
-      <HomeBanner9 />
+      <HomeBanner9 dealRef={dealRef}/>
       <Suspense fallback={<div className='d-flex justify-content-center align-items-center' style={{ height: "60vh" }}><Spin /></div>}>
-        <Courses />
+        <Courses dealRef={dealRef}/>
       </Suspense>
       <HomeBanner5 />
       <HomeBanner3 />
@@ -32,7 +33,7 @@ function Home() {
         <HomeBanner4 />
       </Suspense>
       <ReviewsSlider />
-      {/* <HomeBanner7 /> */}
+      <HomeBanner7 />
       <HomeBanner8 />
       <AboutUsOfCEO />
       <ExpertsFromJZARR />
