@@ -61,6 +61,8 @@ const GlobalStates = ({ children }) => {
   const [communityCommit, setCommunityCommit] = useState("");
   const [userDat, setUserData] = useState([]);
   const [imageData, setImageData] = useState([]);
+    // const [errors, setErrors] = useState({});
+  
   const token = Cookies.get("authToken");
   const id = Cookies.get("userId");
 

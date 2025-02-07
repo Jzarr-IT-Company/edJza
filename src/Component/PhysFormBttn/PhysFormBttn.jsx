@@ -6,34 +6,35 @@ import { physicalForm } from '../../Services/physical.services';
 import { useNavigate } from 'react-router-dom';
 
 function PhysFormBttn() {
-    const { phyFormData } = useGlobalState();
+    const { phyFormData, setErrors } = useGlobalState();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    // Check if all fields are filled
-    const isFormValid = () => {
-        return (
-            phyFormData.name &&
-            phyFormData.email &&
-            phyFormData.phone &&
-            phyFormData.address &&
-            phyFormData.course &&
-            phyFormData.dob &&
-            phyFormData.qualification &&
-            phyFormData.country &&
-            phyFormData.city
-        );
+    const validateForm = () => {
+        let newErrors = {};
+
+        if (!phyFormData.name) newErrors.name = "Name is required";
+        if (!phyFormData.email) newErrors.email = "Email is required";
+        if (!phyFormData.phone) newErrors.phone = "Phone number is required";
+        if (!phyFormData.address) newErrors.address = "Address is required";
+        if (!phyFormData.course) newErrors.course = "Course selection is required";
+        if (!phyFormData.dob) newErrors.dob = "Date of Birth is required";
+        if (!phyFormData.qualification) newErrors.qualification = "Qualification is required";
+        if (!phyFormData.country) newErrors.country = "Country is required";
+        if (!phyFormData.city) newErrors.city = "City is required";
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Validation check
-        if (!isFormValid()) {
+        if (!validateForm()) {
             Swal.fire({
                 position: "center",
                 icon: "error",
-                title: "Please fill out all fields",
+                title: "Please fill out all required fields",
                 showConfirmButton: true,
             });
             return;
@@ -47,10 +48,10 @@ function PhysFormBttn() {
             phone: phyFormData.phone,
             address: phyFormData.address,
             course: phyFormData.course,
-            dateofbirdth: phyFormData.dob,
+            dateofbirth: phyFormData.dob,
             lastqualification: phyFormData.qualification,
-            computerProficiency: phyFormData.proficiency,
-            doyouhavelaptop: phyFormData.laptop,
+            computerProficiency: phyFormData.proficiency || "Not specified",
+            doyouhavelaptop: phyFormData.laptop || "No",
             country: phyFormData.country,
             city: phyFormData.city,
         };
@@ -61,17 +62,22 @@ function PhysFormBttn() {
                 Swal.fire({
                     position: "center",
                     icon: "success",
-                    title: "Account Created!",
+                    title: "Physical Form Submitted",
                     showConfirmButton: false,
                     timer: 1500
-                }).then((result) => {
-                    if (result) {
-                        navigate("/t");
-                    }
+                }).then(() => {
+                    navigate("/t");
                 });
             }
         } catch (error) {
             console.error("Signup Error: ", error);
+            Swal.fire({
+                position: "center",
+                icon: "error",
+                title: "Something went wrong!",
+                text: "Please try again later.",
+                showConfirmButton: true,
+            });
         } finally {
             setLoading(false);
         }
@@ -84,7 +90,7 @@ function PhysFormBttn() {
                 className="bttn fw-semibold"
                 id="createAccount"
                 onClick={handleSubmit}
-                disabled={!isFormValid() || loading}
+                disabled={loading}
             >
                 {loading ? <Spin /> : "Submit Physical Form"}
             </button>

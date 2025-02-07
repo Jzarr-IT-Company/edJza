@@ -71,7 +71,6 @@
     }
 }
 
-/* Ensuring the button text stays on top */
 .animated-button .animated-text {
     position: relative;
     z-index: 1;

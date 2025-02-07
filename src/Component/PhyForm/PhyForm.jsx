@@ -190,7 +190,7 @@ function PhyForm() {
             {errors.country && <p style={{ color: "red" }}>{errors.country}</p>}
           </FormControl>
         </Grid>
-        <Grid item xs={12} md={6}>
+        {/* <Grid item xs={12} md={6}>
           <FormControl fullWidth>
             <InputLabel>City</InputLabel>
             <Select value={city} onChange={(e) => setCity(e.target.value)} disabled={!cities.length} error={!!errors.city}>
@@ -202,6 +202,17 @@ function PhyForm() {
             </Select>
             {errors.city && <p style={{ color: "red" }}>{errors.city}</p>}
           </FormControl>
+        </Grid> */}
+        <Grid item xs={12} md={6}>
+          <TextField
+            fullWidth
+            label="City"
+            value={city}
+            onChange={(e) => setCity(e.target.value)}
+            error={!!errors.city}
+            helperText={errors.city}
+          />
+            {/* {errors.city && <p style={{ color: "red" }}>{errors.city}</p>} */}
         </Grid>
       </Grid>
     </>
